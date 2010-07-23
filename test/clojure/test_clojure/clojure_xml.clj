@@ -11,7 +11,11 @@
 
 (ns clojure.test-clojure.clojure-xml
   (:use clojure.test)
+  (:import [javax.xml.parsers SAXParserFactory])
   (:require [clojure.xml :as xml]))
+
+(deftest sax-parser-factory-is-not-awol
+  (is (SAXParserFactory/newInstance)))
 
 
 ; parse
