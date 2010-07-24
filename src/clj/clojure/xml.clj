@@ -107,7 +107,7 @@
 
 (defn emit-element [e]
   (if (instance? String e)
-    (println (escape e))
+    (print (escape e))
     (do
       (print (str "<" (name (:tag e))))
       (when (:attrs e)
@@ -115,7 +115,7 @@
 	  (print (str " " (name (key attr)) "='" (escape (val attr))"'"))))
       (if (:content e)
 	(do
-	  (println ">")
+	  (print ">")
 	  (doseq [c (:content e)]
 	    (emit-element c))
 	  (println (str "</" (name (:tag e)) ">")))
