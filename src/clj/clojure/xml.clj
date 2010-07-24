@@ -92,14 +92,27 @@
       (startparse s content-handler)
       ((:content *current*) 0)))) 
 
+(defn escape
+  "Escape s for for output in XML content or attribute values:
+  & becomes &amp; < becomes &lt; > becomes &gt; ' becomes &apos;
+  \" becomes &quot;."
+  {:tag String}
+  [^String s]
+  (.. s
+      (replace "&" "&amp;")       ; escape & first because escapes use &
+      (replace "<" "&lt;")
+      (replace ">" "&gt;")
+      (replace "'" "&apos;")
+      (replace "\"" "&quot;")))
+
 (defn emit-element [e]
   (if (instance? String e)
-    (println e)
+    (println (escape e))
     (do
       (print (str "<" (name (:tag e))))
       (when (:attrs e)
 	(doseq [attr (:attrs e)]
-	  (print (str " " (name (key attr)) "='" (val attr)"'"))))
+	  (print (str " " (name (key attr)) "='" (escape (val attr))"'"))))
       (if (:content e)
 	(do
 	  (println ">")
