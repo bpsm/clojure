@@ -6767,7 +6767,6 @@ static public void writeClassFile(String internalName, byte[] bytecode) throws E
 		{
 		cfs.write(bytecode);
 		cfs.flush();
-		cfs.getFD().sync();
 		}
 	finally
 		{
