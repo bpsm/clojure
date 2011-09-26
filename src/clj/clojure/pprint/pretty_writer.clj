@@ -34,18 +34,18 @@
 ;;; really utilities, but I'm experimenting with them here.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmacro ^{:private true} 
+(defmacro ^:private 
   getf 
   "Get the value of the field a named by the argument (which should be a keyword)."
   [sym]
   `(~sym @@~'this))
 
-(defmacro ^{:private true} 
+(defmacro ^:private 
   setf [sym new-val] 
   "Set the value of the field SYM to NEW-VAL"
   `(alter @~'this assoc ~sym ~new-val))
 
-(defmacro ^{:private true} 
+(defmacro ^:private 
   deftype [type-name & fields]
   (let [name-str (name type-name)]
     `(do
@@ -59,7 +59,7 @@
 ;;; The data structures used by pretty-writer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct ^{:private true} logical-block
+(defstruct ^:private logical-block
            :parent :section :start-col :indent
            :done-nl :intra-block-nl
            :prefix :per-line-prefix :suffix
@@ -72,7 +72,7 @@
      (identical? parent child) true
      :else (recur (:parent child)))))
 
-(defstruct ^{:private true} section :parent)
+(defstruct ^:private section :parent)
 
 (defn- buffer-length [l] 
   (let [l (seq l)]
@@ -100,7 +100,7 @@
 
 (declare emit-nl)
 
-(defmulti ^{:private true} write-token #(:type-tag %2))
+(defmulti ^:private write-token #(:type-tag %2))
 (defmethod write-token :start-block-t [^Writer this token]
    (when-let [cb (getf :logical-block-callback)] (cb :start))
    (let [lb (:logical-block token)]
@@ -175,7 +175,7 @@
          (>= @(:start-col lb) (- maxcol miser-width))
          (linear-nl? this lb section))))
 
-(defmulti ^{:private true} emit-nl? (fn [t _ _ _] (:type t)))
+(defmulti ^:private emit-nl? (fn [t _ _ _] (:type t)))
 
 (defmethod emit-nl? :linear [newl this section _]
   (let [lb (:logical-block newl)]
@@ -242,7 +242,7 @@
 
 ;;; Methods for showing token strings for debugging
 
-(defmulti ^{:private true} tok :type-tag)
+(defmulti ^:private tok :type-tag)
 (defmethod tok :nl-t [token]
   (:type token))
 (defmethod tok :buffer-blob [token]
