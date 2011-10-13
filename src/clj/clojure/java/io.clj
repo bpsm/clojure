@@ -246,12 +246,12 @@
   IOFactory
   (assoc default-streams-impl
     :make-input-stream (fn [^String x opts]
-                         (try
+                         (try*
                           (make-input-stream (URL. x) opts)
                           (catch MalformedURLException e
                             (make-input-stream (File. x) opts))))
     :make-output-stream (fn [^String x opts]
-                          (try
+                          (try*
                            (make-output-stream (URL. x) opts)
                            (catch MalformedURLException err
                              (make-output-stream (File. x) opts))))))

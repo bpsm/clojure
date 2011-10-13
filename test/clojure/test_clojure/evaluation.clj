@@ -158,7 +158,7 @@
       5. It is an error."
 
     ; First
-    (doall (for [form '(def if do let quote var fn loop recur throw try
+    (doall (for [form '(def if do let quote var fn loop recur throw try*
                          monitor-enter monitor-exit)]
              (is (thrown? Compiler$CompilerException (eval form)))))
     (let [if "foo"]

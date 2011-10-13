@@ -1495,13 +1495,14 @@
   [^clojure.lang.Named x]
     (. x (getNamespace)))
 
+
 (defmacro locking
   "Executes exprs in an implicit do, while holding the monitor of x.
   Will release the monitor of x in all circumstances."
   {:added "1.0"}
   [x & body]
   `(let [lockee# ~x]
-     (try
+     (try*
       (monitor-enter lockee#)
       ~@body
       (finally
@@ -1707,7 +1708,7 @@
   pop-thread-bindings wrapped in a try-finally!
   
       (push-thread-bindings bindings)
-      (try
+      (try*
         ...
         (finally
           (pop-thread-bindings)))"
@@ -1753,7 +1754,7 @@
                       (seq ret))))]
     `(let []
        (push-thread-bindings (hash-map ~@(var-ize bindings)))
-       (try
+       (try*
          ~@body
          (finally
            (pop-thread-bindings))))))
@@ -1766,7 +1767,7 @@
    :static true}
   [binding-map f & args]
   (push-thread-bindings binding-map)
-  (try
+  (try*
     (apply f args)
     (finally
       (pop-thread-bindings))))
@@ -3386,7 +3387,7 @@
   (cond
     (= (count bindings) 0) `(do ~@body)
     (symbol? (bindings 0)) `(let ~(subvec bindings 0 2)
-                              (try
+                              (try*
                                 (with-open ~(subvec bindings 2) ~@body)
                                 (finally
                                   (. ~(bindings 0) close))))
@@ -3862,7 +3863,7 @@
   `(let [~@(interleave (take-nth 2 name-vals-vec)
                        (repeat '(.. clojure.lang.Var create setDynamic)))]
      (. clojure.lang.Var (pushThreadBindings (hash-map ~@name-vals-vec)))
-     (try
+     (try*
       ~@body
       (finally (. clojure.lang.Var (popThreadBindings))))))
 
@@ -4722,7 +4723,7 @@
          NIL (Object.) ;nil sentinel since LBQ doesn't support nils
          agt (agent (seq s))
          fill (fn [s]
-                (try
+                (try*
                   (loop [[x & xs :as s] s]
                     (if s
                       (if (.offer q (if (nil? x) NIL x))
@@ -5058,7 +5059,7 @@
   `((fn loading# [] 
         (. clojure.lang.Var (pushThreadBindings {clojure.lang.Compiler/LOADER  
                                                  (.getClassLoader (.getClass ^Object loading#))}))
-        (try
+        (try*
          ~@body
          (finally
           (. clojure.lang.Var (popThreadBindings)))))))
@@ -6056,7 +6057,7 @@
      clojure.lang.IBlockingDeref
      (deref
       [_ timeout-ms timeout-val]
-      (try (.get fut timeout-ms java.util.concurrent.TimeUnit/MILLISECONDS)
+      (try* (.get fut timeout-ms java.util.concurrent.TimeUnit/MILLISECONDS)
            (catch java.util.concurrent.TimeoutException e
              timeout-val)))
      clojure.lang.IPending
@@ -6479,7 +6480,7 @@
                       (.bindRoot ^clojure.lang.Var a-var a-val)))
         old-vals (zipmap (keys binding-map)
                          (map deref (keys binding-map)))]
-    (try
+    (try*
       (root-bind binding-map)
       (func)
       (finally
