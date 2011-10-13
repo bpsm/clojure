@@ -157,16 +157,16 @@ static public <K,V> void clearCache(ReferenceQueue rq, ConcurrentHashMap<K, Refe
 }
 
 static public RuntimeException runtimeException(String s){
-	return new RuntimeException(s);
+    return new ClojureException(s);
 }
 static public RuntimeException runtimeException(String s, Throwable e){
-	return new RuntimeException(s, e);
+	return new ClojureException(s, e);
 }
 
 static public RuntimeException runtimeException(Throwable e){
 	if(e instanceof RuntimeException)
 		return (RuntimeException)e;
-	return new RuntimeException(e);
+	return new WrappedException(e);
 }
 
 }
