@@ -6505,3 +6505,22 @@
   "Returns true if a value has been produced for a promise, delay, future or lazy sequence."
   {:added "1.3"}
   [^clojure.lang.IPending x] (.isRealized x))
+  
+(defmacro try
+  "(try expr* catch-clause* finally-clause?)
+catch-clause -> (catch classname name expr*)
+finally-clause -> (finally expr*)
+
+The exprs are evaluated and, if no exceptions occur, the value of the last is returned. If an exception occurs and catch clauses are provided, each is examined in turn and the first for which the thrown exception is an instance of the named class is considered a matching catch clause. If there is a matching catch clause, its exprs are evaluated in a context in which name is bound to the thrown exception, and the value of the last is the return value of the function. If there is no matching catch clause, the exception propagates out of the function. Before returning, normally or abnormally, any finally exprs will be evaluated for their side effects."
+  {:added "1.4"}
+  [ & body ]
+  (let [clause? #(and (seq? %) (#{'catch 'finally} (first %)))
+        exprs (remove clause? body)
+        clauses (filter clause? body)]
+    `(try*
+       (try*
+         ~@exprs
+         (catch clojure.lang.WrappedException we#
+           (throw (. we# getCause))))
+       ~@clauses)))
+
