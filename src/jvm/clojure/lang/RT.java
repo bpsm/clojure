@@ -306,7 +306,7 @@ static{
 				               }
 			               catch(IOException e)
 				               {
-				               throw Util.runtimeException(e);
+				               throw Util.sneakyThrow(e);
 				               }
 		               }
 	               });
@@ -316,7 +316,7 @@ static{
 		doInit();
 	}
 	catch(Exception e) {
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 	}
 }
 
@@ -1671,7 +1671,7 @@ static public String printString(Object x){
 		return sw.toString();
 	}
 	catch(Exception e) {
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 	}
 }
 
@@ -1681,7 +1681,7 @@ static public Object readString(String s){
 		return LispReader.read(r, true, null, false);
 	}
 	catch(Exception e) {
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 	}
 }
 
@@ -2014,7 +2014,7 @@ static public Class classForName(String name) {
 		}
 	catch(ClassNotFoundException e)
 		{
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 		}
 }
 
