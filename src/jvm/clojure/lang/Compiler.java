@@ -2284,7 +2284,9 @@ static public boolean subsumes(Class[] c1, Class[] c2){
 }
 
 static String expandArrayClassname (Class c) {
-    if (c.isArray()) {
+    if (c == null) {
+        return "nil";
+    } else if (c.isArray()) {
         return expandArrayClassname(c.getComponentType()) + "[]";
     } else {
         return c.getName();
