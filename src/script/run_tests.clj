@@ -11,6 +11,7 @@ clojure.test-clojure.clojure-xml
 clojure.test-clojure.clojure-zip
 clojure.test-clojure.compilation
 clojure.test-clojure.control
+clojure.test-clojure.clj-852
 clojure.test-clojure.data
 clojure.test-clojure.data-structures
 clojure.test-clojure.def
