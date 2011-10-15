@@ -939,6 +939,8 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
 						}
 						catch(Exception e){
 							//aargh
+// CLJ-852: Aargh? Is this the point where the if/else chain in
+//          tagToClass comes into play?
 						}
 						}
 					}
@@ -973,11 +975,15 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
  */
 	static Class tagToClass(Object tag) {
 		Class c = maybeClass(tag, true);
+// CLJ-852: Why do we first ask for maybeClass and then ...
 		if(tag instanceof Symbol)
 			{
 			Symbol sym = (Symbol) tag;
 			if(sym.ns == null) //if ns-qualified can't be classname
 				{
+// CLJ-852: ... overwrite what maybeClass() returned without even
+//          consdiering it. (Isn't this whole if/else cascade only
+//          necessary if c comes back null?
 				if(sym.name.equals("objects"))
 					c = Object[].class;
 				else if(sym.name.equals("ints"))
@@ -985,17 +991,33 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
 				else if(sym.name.equals("longs"))
 					c = long[].class;
 				else if(sym.name.equals("floats"))
-						c = float[].class;
-					else if(sym.name.equals("doubles"))
-							c = double[].class;
-						else if(sym.name.equals("chars"))
-								c = char[].class;
-							else if(sym.name.equals("shorts"))
-									c = short[].class;
-								else if(sym.name.equals("bytes"))
-										c = byte[].class;
-									else if(sym.name.equals("booleans"))
-											c = boolean[].class;
+					c = float[].class;
+				else if(sym.name.equals("doubles"))
+					c = double[].class;
+				else if(sym.name.equals("chars"))
+					c = char[].class;
+				else if(sym.name.equals("shorts"))
+					c = short[].class;
+				else if(sym.name.equals("bytes"))
+					c = byte[].class;
+				else if(sym.name.equals("booleans"))
+					c = boolean[].class;
+				else if(sym.name.equals("int"))
+					c = Integer.TYPE;
+				else if(sym.name.equals("long"))
+					c = Long.TYPE;
+				else if(sym.name.equals("float"))
+					c = Float.TYPE;
+				else if(sym.name.equals("double"))
+					c = Double.TYPE;
+				else if(sym.name.equals("char"))
+					c = Character.TYPE;
+				else if(sym.name.equals("short"))
+					c = Short.TYPE;
+				else if(sym.name.equals("byte"))
+					c = Byte.TYPE;
+				else if(sym.name.equals("boolean"))
+					c = Boolean.TYPE;
 				}
 			}
 		if(c != null)
