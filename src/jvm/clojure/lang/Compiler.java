@@ -5085,8 +5085,22 @@ public static class FnMethod extends ObjMethod{
 
 	}
 
+	private boolean isSubclassOfObject(Type t){
+		final String d = t.getDescriptor();
+		return d.startsWith("L") && !d.equals("Ljava/lang/Object;");
+	}
+
 	public void doEmitPrim(ObjExpr fn, ClassVisitor cv){
-		Method ms = new Method("invokePrim", getReturnType(), argtypes);
+		Type returnType = getReturnType();
+		if (isSubclassOfObject(returnType))
+			doEmitPrim(fn, cv, OBJECT_TYPE);
+		doEmitPrim(fn, cv, returnType);
+		doEmitDelegatingToPrim(fn, cv, returnType);
+	}
+
+	private void doEmitPrim(ObjExpr fn, ClassVisitor cv, Type returnType){
+
+		Method ms = new Method("invokePrim", returnType, argtypes);
 
 		GeneratorAdapter gen = new GeneratorAdapter(ACC_PUBLIC + ACC_FINAL,
 		                                            ms,
@@ -5123,10 +5137,12 @@ public static class FnMethod extends ObjMethod{
 		gen.returnValue();
 		//gen.visitMaxs(1, 1);
 		gen.endMethod();
+	}
 
-	//generate the regular invoke, calling the prim method
+	private void doEmitDelegatingToPrim(ObjExpr fn, ClassVisitor cv, Type returnType) {
 		Method m = new Method(getMethodName(), OBJECT_TYPE, getArgTypes());
-
+		Method ms = new Method("invokePrim", returnType, argtypes);
+		GeneratorAdapter gen;
 		gen = new GeneratorAdapter(ACC_PUBLIC,
 		                           m,
 		                           null,
