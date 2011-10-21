@@ -42,7 +42,7 @@
 ;;; or directly by printing the objects using Clojure's built-in print functions (like
 ;;; :keyword, \char, or ""). The notable exception is #() which is special-cased.
 
-(def ^{:private true} reader-macros
+(def ^:private reader-macros
      {'quote "'", 'clojure.core/deref "@", 
       'var "#'", 'clojure.core/unquote "~"})
 
@@ -88,7 +88,7 @@
 	  (pprint-newline :linear)
 	  (recur (next aseq)))))))
 
-(def ^{:private true} pprint-array (formatter-out "~<[~;~@{~w~^, ~:_~}~;]~:>"))
+(def ^:private pprint-array (formatter-out "~<[~;~@{~w~^, ~:_~}~;]~:>"))
 
 ;;; (def pprint-map (formatter-out "~<{~;~@{~<~w~^ ~_~w~:>~^, ~_~}~;}~:>"))
 (defn- pprint-map [amap]
@@ -106,9 +106,9 @@
           (pprint-newline :linear)
           (recur (next aseq)))))))
 
-(def ^{:private true} pprint-set (formatter-out "~<#{~;~@{~w~^ ~:_~}~;}~:>"))
+(def ^:private pprint-set (formatter-out "~<#{~;~@{~w~^ ~:_~}~;}~:>"))
 
-(def ^{:private true} 
+(def ^:private 
      type-map {"core$future_call" "Future",
                "core$promise" "Promise"})
 
@@ -135,7 +135,7 @@
                                        (and (instance? clojure.lang.IPending o) (not (.isRealized o))) :not-delivered
                                        :else @o)))))
 
-(def ^{:private true} pprint-pqueue (formatter-out "~<<-(~;~@{~w~^ ~_~}~;)-<~:>"))
+(def ^:private pprint-pqueue (formatter-out "~<<-(~;~@{~w~^ ~_~}~;)-<~:>"))
 
 (defn- pprint-simple-default [obj]
   (cond 
@@ -170,7 +170,7 @@
 ;;; won't give it to us now).
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true} pprint-hold-first (formatter-out "~:<~w~^ ~@_~w~^ ~_~@{~w~^ ~_~}~:>"))
+(def ^:private pprint-hold-first (formatter-out "~:<~w~^ ~@_~w~^ ~_~@{~w~^ ~_~}~:>"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Format something that looks like a defn or defmacro
@@ -247,7 +247,7 @@
 ;;; Format something that looks like "if"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true} pprint-if (formatter-out "~:<~1I~w~^ ~@_~w~@{ ~_~w~}~:>"))
+(def ^:private pprint-if (formatter-out "~:<~1I~w~^ ~@_~w~@{ ~_~w~}~:>"))
 
 (defn- pprint-cond [alis]
   (pprint-logical-block :prefix "(" :suffix ")"
@@ -289,7 +289,7 @@
     (pprint-simple-code-list alis)))
 
 ;;; The map of symbols that are defined in an enclosing #() anonymous function
-(def ^:dynamic ^{:private true} *symbol-map* {})
+(def ^:dynamic ^:private *symbol-map* {})
 
 (defn- pprint-anon-func [alis]
   (let [args (second alis)
@@ -342,7 +342,7 @@
                     %))
                amap))))
 
-(def ^:dynamic ^{:private true} *code-table*
+(def ^:dynamic ^:private *code-table*
      (two-forms
       (add-core-ns
        {'def pprint-hold-first, 'defonce pprint-hold-first, 
@@ -464,4 +464,3 @@
         (pprint-simple-code-list writer alis)))))
 )
 nil
-

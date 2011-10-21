@@ -63,7 +63,7 @@ http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
         navigator (init-navigator args)]
     (execute-format writer compiled-format navigator)))
 
-(def ^:dynamic ^{:private true} *format-str* nil)
+(def ^:dynamic ^:private *format-str* nil)
 
 (defn- format-error [message offset] 
   (let [full-message (str message \newline *format-str* \newline 
@@ -76,7 +76,7 @@ http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
 ;;; (possibly going forwards and backwards as it does so)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defstruct ^{:private true}
+(defstruct ^:private
   arg-navigator :seq :rest :pos )
 
 (defn- init-navigator 
@@ -120,7 +120,7 @@ http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
       (absolute-reposition navigator newpos)
       (struct arg-navigator (:seq navigator) (drop position (:rest navigator)) newpos))))
 
-(defstruct ^{:private true}
+(defstruct ^:private
   compiled-directive :func :def :params :offset)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -162,7 +162,7 @@ http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
 
 (declare opt-base-str)
 
-(def ^{:private true}
+(def ^:private
      special-radix-markers {2 "#b" 8 "#o", 16 "#x"})
 
 (defn- format-simple-number [n]
@@ -239,7 +239,7 @@ http://www.lispworks.com/documentation/HyperSpec/Body/22_c.htm
               #(if (< % 10) (char (+ (int \0) %)) (char (+ (int \a) (- % 10)))) 
               (remainders base val))))))
 
-(def ^{:private true}
+(def ^:private
      java-base-formats {8 "%o", 10 "%d", 16 "%x"})
 
 (defn- opt-base-str
@@ -286,23 +286,23 @@ for improved performance"
 ;;; Support for english formats (~R and ~:R)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true}
+(def ^:private
      english-cardinal-units 
      ["zero" "one" "two" "three" "four" "five" "six" "seven" "eight" "nine"
       "ten" "eleven" "twelve" "thirteen" "fourteen"
       "fifteen" "sixteen" "seventeen" "eighteen" "nineteen"])
 
-(def ^{:private true}
+(def ^:private
      english-ordinal-units 
      ["zeroth" "first" "second" "third" "fourth" "fifth" "sixth" "seventh" "eighth" "ninth"
       "tenth" "eleventh" "twelfth" "thirteenth" "fourteenth"
       "fifteenth" "sixteenth" "seventeenth" "eighteenth" "nineteenth"])
 
-(def ^{:private true}
+(def ^:private
      english-cardinal-tens
      ["" "" "twenty" "thirty" "forty" "fifty" "sixty" "seventy" "eighty" "ninety"])
 
-(def ^{:private true}
+(def ^:private
      english-ordinal-tens
      ["" "" "twentieth" "thirtieth" "fortieth" "fiftieth"
       "sixtieth" "seventieth" "eightieth" "ninetieth"])
@@ -311,7 +311,7 @@ for improved performance"
 ;; Number names from http://www.jimloy.com/math/billion.htm
 ;; We follow the rules for writing numbers from the Blue Book
 ;; (http://www.grammarbook.com/numbers/numbers.asp)
-(def ^{:private true}
+(def ^:private
      english-scale-numbers 
      ["" "thousand" "million" "billion" "trillion" "quadrillion" "quintillion" 
       "sextillion" "septillion" "octillion" "nonillion" "decillion" 
@@ -436,14 +436,14 @@ Note this should only be used for the last one in the sequence"
 ;;; Support for roman numeral formats (~@R and ~@:R)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true}
+(def ^:private
      old-roman-table
      [[ "I" "II" "III" "IIII" "V" "VI" "VII" "VIII" "VIIII"]
       [ "X" "XX" "XXX" "XXXX" "L" "LX" "LXX" "LXXX" "LXXXX"]
       [ "C" "CC" "CCC" "CCCC" "D" "DC" "DCC" "DCCC" "DCCCC"]
       [ "M" "MM" "MMM"]])
 
-(def ^{:private true}
+(def ^:private
      new-roman-table
      [[ "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX"]
       [ "X" "XX" "XXX" "XL" "L" "LX" "LXX" "LXXX" "XC"]
@@ -484,7 +484,7 @@ Note this should only be used for the last one in the sequence"
 ;;; Support for character formats (~C)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true} 
+(def ^:private 
      special-chars { 8 "Backspace", 9 "Tab",  10 "Newline", 13 "Return", 32 "Space"})
 
 (defn- pretty-character [params navigator offsets]
@@ -1268,10 +1268,10 @@ not a pretty writer (which keeps track of columns), this function always outputs
     :bracket-info bracket-info,
     :generator-fn (concat '(fn [ params offset]) generator-fn) }])
 
-(defmacro ^{:private true}
+(defmacro ^:private
   defdirectives 
   [ & directives ]
-  `(def ^{:private true}
+  `(def ^:private
         directive-table (hash-map ~@(mapcat process-directive-table-element directives))))
 
 (defdirectives 
@@ -1559,9 +1559,9 @@ not a pretty writer (which keeps track of columns), this function always outputs
 ;;; directive in the format string.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def ^{:private true}
+(def ^:private
      param-pattern #"^([vV]|#|('.)|([+-]?\d+)|(?=,))")
-(def ^{:private true}
+(def ^:private
      special-params #{ :parameter-from-args :remaining-arg-count })
 
 (defn- extract-param [[s offset saw-comma]]
@@ -1594,7 +1594,7 @@ not a pretty writer (which keeps track of columns), this function always outputs
     true (new Integer p))
    offset])
  
-(def ^{:private true}
+(def ^:private
      flag-defs { \: :colon, \@ :at })
 
 (defn- extract-flags [s offset]
@@ -1853,7 +1853,7 @@ column number or pretty printing"
 
 ;;; This is a bad idea, but it prevents us from leaking private symbols
 ;;; This should all be replaced by really compiled formats anyway.
-(def ^{:private true} cached-compile (memoize compile-format))
+(def ^:private cached-compile (memoize compile-format))
 
 (defmacro formatter
   "Makes a function which can directly run format-in. The function is

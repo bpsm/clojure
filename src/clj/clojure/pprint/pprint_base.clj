@@ -52,21 +52,18 @@ levels of nesting.",
  *print-miser-width* 40)
 
 ;;; TODO implement output limiting
-(def ^:dynamic
- ^{:private true,
-   :doc "Maximum number of lines to print in a pretty print instance (N.B. This is not yet used)"}
+(def ^:dynamic ^:private
+ ^{:doc "Maximum number of lines to print in a pretty print instance (N.B. This is not yet used)"}
  *print-lines* nil)
 
 ;;; TODO: implement circle and shared
-(def ^:dynamic
- ^{:private true,
-   :doc "Mark circular structures (N.B. This is not yet used)"}
+(def ^:dynamic ^:private
+ ^{:doc "Mark circular structures (N.B. This is not yet used)"}
  *print-circle* nil)
 
 ;;; TODO: should we just use *print-dup* here?
-(def ^:dynamic
- ^{:private true,
-   :doc "Mark repeated structures rather than repeat them (N.B. This is not yet used)"}
+(def ^:dynamic ^:private
+ ^{:doc "Mark repeated structures rather than repeat them (N.B. This is not yet used)"}
  *print-shared* nil)
 
 (def ^:dynamic
@@ -96,9 +93,9 @@ radix specifier is in the form #XXr where XX is the decimal value of *print-base
 ;; structure
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def  ^:dynamic ^{ :private true } *current-level* 0)
+(def  ^:dynamic ^:private *current-level* 0)
 
-(def ^:dynamic ^{ :private true } *current-length* nil)
+(def ^:dynamic ^:private *current-length* nil)
 
 ;; TODO: add variables for length, lines.
 
@@ -108,14 +105,14 @@ radix specifier is in the form #XXr where XX is the decimal value of *print-base
 
 (declare format-simple-number)
 
-(def ^{:private true} orig-pr pr)
+(def ^:private orig-pr pr)
 
 (defn- pr-with-base [x]
   (if-let [s (format-simple-number x)]
     (print s)
     (orig-pr x)))
 
-(def ^{:private true} write-option-table
+(def ^:private write-option-table
      {;:array            *print-array*
       :base             'clojure.pprint/*print-base*,
       ;;:case             *print-case*,
@@ -134,7 +131,7 @@ radix specifier is in the form #XXr where XX is the decimal value of *print-base
       :suppress-namespaces 'clojure.pprint/*print-suppress-namespaces*})
 
 
-(defmacro ^{:private true} binding-map [amap & body]
+(defmacro ^:private binding-map [amap & body]
   (let []
     `(do
        (. clojure.lang.Var (pushThreadBindings ~amap))
@@ -157,7 +154,7 @@ radix specifier is in the form #XXr where XX is the decimal value of *print-base
   [base-writer right-margin miser-width]
   (pretty-writer base-writer right-margin miser-width))
 
-(defmacro ^{:private true} with-pretty-writer [base-writer & body]
+(defmacro ^:private with-pretty-writer [base-writer & body]
   `(let [base-writer# ~base-writer
          new-writer# (not (pretty-writer? base-writer#))]
      (binding [*out* (if new-writer#
