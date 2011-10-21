@@ -1158,7 +1158,7 @@ static class StaticFieldExpr extends FieldExpr implements AssignableExpr{
 			}
 		catch(NoSuchFieldException e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		this.tag = tag;
 	}
@@ -1231,7 +1231,7 @@ static Class maybePrimitiveType(Expr e){
 		}
 	catch(Exception ex)
 		{
-		throw Util.runtimeException(ex);
+		throw Util.sneakyThrow(ex);
 		}
 	return null;
 }
@@ -2424,7 +2424,7 @@ public static class NewExpr implements Expr{
 				}
 			catch(Exception e)
 				{
-				throw Util.runtimeException(e);
+				throw Util.sneakyThrow(e);
 				}
 			}
 		return Reflector.invokeConstructor(c, argvals);
@@ -2582,7 +2582,7 @@ public static class IfExpr implements Expr, MaybePrimitiveExpr{
 			}
 		catch(Exception e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		if(emitUnboxed)
 			((MaybePrimitiveExpr)thenExpr).emitUnboxed(context, objx, gen);
@@ -3220,7 +3220,7 @@ static class StaticInvokeExpr implements Expr, MaybePrimitiveExpr{
 					}
 				catch(Exception ex)
 					{
-					throw Util.runtimeException(ex);
+					throw Util.sneakyThrow(ex);
 					}
 				}
 			IPersistentVector restArgs = RT.subvec(args,paramclasses.length - 1,args.count());
@@ -3742,7 +3742,7 @@ static public class FnExpr extends ObjExpr{
 			}
 		catch(IOException e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		fn.getCompiledClass();
 
@@ -4585,7 +4585,7 @@ static public class ObjExpr implements Expr{
 				}
 			catch(Exception e)
 				{
-				throw Util.runtimeException(e);
+				throw Util.sneakyThrow(e);
 				}
 		return compiledClass;
 	}
@@ -4599,7 +4599,7 @@ static public class ObjExpr implements Expr{
 			}
 		catch(Exception e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 	}
 
@@ -5099,7 +5099,7 @@ public static class FnMethod extends ObjMethod{
 			}
 		catch(Exception e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		finally
 			{
@@ -5177,7 +5177,7 @@ public static class FnMethod extends ObjMethod{
 			}
 		catch(Exception e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		finally
 			{
@@ -6120,7 +6120,7 @@ public static class RecurExpr implements Expr{
 					}
 				catch(Exception e)
 					{
-					throw Util.runtimeException(e);
+					throw Util.sneakyThrow(e);
 					}
 				}
 			else
@@ -6539,7 +6539,7 @@ public static Object eval(Object form, boolean freshLoader) {
 		catch(Throwable e)
 			{
 			if(!(e instanceof RuntimeException))
-				throw Util.runtimeException(e);
+				throw Util.sneakyThrow(e);
 			throw (RuntimeException)e;
 			}
 		finally
@@ -6645,7 +6645,7 @@ static void addAnnotation(Object visitor, IPersistentMap meta){
 	}
 	catch (Exception e)
 		{
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 		}
 }
 
@@ -6656,7 +6656,7 @@ static void addParameterAnnotation(Object visitor, IPersistentMap meta, int i){
 	}
 	catch (Exception e)
 		{
-		throw Util.runtimeException(e);
+		throw Util.sneakyThrow(e);
 		}
 }
 
@@ -7386,7 +7386,7 @@ static public class NewInstanceExpr extends ObjExpr{
 			}
 		catch(IOException e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		ret.getCompiledClass();
 		return ret;
@@ -7896,7 +7896,7 @@ public static class NewInstanceMethod extends ObjMethod{
 			}
 		catch(Exception e)
 			{
-			throw Util.runtimeException(e);
+			throw Util.sneakyThrow(e);
 			}
 		finally
 			{
