@@ -3811,7 +3811,18 @@ static public boolean equiv(long x, double y){
 	return x == y;
 }
 
+
+static boolean isNaN(Object x){
+	return (x instanceof Double) && ((Double)x).isNaN()
+		|| (x instanceof Float) && ((Float)x).isNaN();
+}
+
 static public double max(double x, double y){
+	if(Double.isNaN(x)){
+		return y;
+	} else if(Double.isNaN(y)){
+		return x;
+	}
 	if(x > y){
 		return x;
 	} else {
@@ -3820,6 +3831,9 @@ static public double max(double x, double y){
 }
 
 static public Object max(double x, long y){
+	if(Double.isNaN(x)){
+		return y;
+	}
 	if(x > y){
 		return x;
 	} else {
@@ -3828,6 +3842,11 @@ static public Object max(double x, long y){
 }
 
 static public Object max(double x, Object y){
+	if(Double.isNaN(x)){
+		return y;
+	} else if(isNaN(y)){
+		return x;
+	}
 	if(x > ((Number)y).doubleValue()){
 		return x;
 	} else {
@@ -3836,6 +3855,9 @@ static public Object max(double x, Object y){
 }
 
 static public Object max(long x, double y){
+	if(Double.isNaN(y)){
+		return x;
+	}
 	if(x > y){
 		return x;
 	} else {
@@ -3853,6 +3875,9 @@ static public long max(long x, long y){
 }
 
 static public Object max(long x, Object y){
+	if(isNaN(y)){
+		return x;
+	}
 	if(gt(x,y)){
 		return x;
 	} else {
@@ -3861,6 +3886,9 @@ static public Object max(long x, Object y){
 }
 
 static public Object max(Object x, long y){
+	if(isNaN(x)){
+		return y;
+	}
 	if(gt(x,y)){
 		return x;
 	} else {
@@ -3869,6 +3897,11 @@ static public Object max(Object x, long y){
 }
 
 static public Object max(Object x, double y){
+	if (isNaN(x)){
+		return y;
+	} else if(Double.isNaN(y)){
+		return x;
+	}
 	if(((Number)x).doubleValue() > y){
 		return x;
 	} else {
@@ -3877,6 +3910,11 @@ static public Object max(Object x, double y){
 }
 
 static public Object max(Object x, Object y){
+	if(isNaN(x)){
+		return y;
+	} else if(isNaN(y)){
+		return x;
+	}
 	if(gt(x, y)) {
 		return x;
 	} else {
@@ -3886,6 +3924,11 @@ static public Object max(Object x, Object y){
 
 
 static public double min(double x, double y){
+	if(Double.isNaN(x)){
+		return y;
+	} else if (Double.isNaN(y)){
+		return x;
+	}
 	if(x < y){
 		return x;
 	} else {
@@ -3894,6 +3937,9 @@ static public double min(double x, double y){
 }
 
 static public Object min(double x, long y){
+	if (Double.isNaN(x)){
+		return y;
+	}
 	if(x < y){
 		return x;
 	} else {
@@ -3902,6 +3948,11 @@ static public Object min(double x, long y){
 }
 
 static public Object min(double x, Object y){
+	if(Double.isNaN(x)){
+		return y;
+	} else if(isNaN(y)){
+		return x;
+	}
 	if(x < ((Number)y).doubleValue()){
 		return x;
 	} else {
@@ -3910,6 +3961,9 @@ static public Object min(double x, Object y){
 }
 
 static public Object min(long x, double y){
+	if(Double.isNaN(y)){
+		return x;
+	}
 	if(x < y){
 		return x;
 	} else {
@@ -3927,6 +3981,9 @@ static public long min(long x, long y){
 }
 
 static public Object min(long x, Object y){
+	if(isNaN(y)){
+		return x;
+	}
 	if(lt(x,y)){
 		return x;
 	} else {
@@ -3935,6 +3992,9 @@ static public Object min(long x, Object y){
 }
 
 static public Object min(Object x, long y){
+	if(isNaN(x)){
+		return y;
+	}
 	if(lt(x,y)){
 		return x;
 	} else {
@@ -3943,6 +4003,11 @@ static public Object min(Object x, long y){
 }
 
 static public Object min(Object x, double y){
+	if(isNaN(x)){
+		return y;
+	} else if(Double.isNaN(y)){
+		return x;
+	}
 	if(((Number)x).doubleValue() < y){
 		return x;
 	} else {
@@ -3951,6 +4016,11 @@ static public Object min(Object x, double y){
 }
 
 static public Object min(Object x, Object y){
+	if (isNaN(x)){
+		return y;
+	} else if(isNaN(y)){
+		return x;
+	}
 	if(lt(x,y)) {
 		return x;
 	} else {
