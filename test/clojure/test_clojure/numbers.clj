@@ -547,3 +547,12 @@ Math/pow overflows to Infinity."
     (is (= java.lang.Long (class (min 1.0 -10 2.0))))
     (is (= java.lang.Long (class (min 1.0 2.0 -10))))
     (is (= java.lang.Double (class (min 1 2 -10.0 3 4 5))))))
+
+(deftest clj-868
+  (testing "min/max: NaN causes an exception to be thrown"
+    (is (thrown? RuntimeException (min Double/NaN)))
+    (is (thrown? RuntimeException (max Double/NaN)))
+    (is (thrown? RuntimeException (min Double/NaN 0.0)))
+    (is (thrown? RuntimeException (min 0.0 Double/NaN)))))
+
+
