@@ -547,3 +547,25 @@ Math/pow overflows to Infinity."
     (is (= java.lang.Long (class (min 1.0 -10 2.0))))
     (is (= java.lang.Long (class (min 1.0 2.0 -10))))
     (is (= java.lang.Double (class (min 1 2 -10.0 3 4 5))))))
+
+(deftest clj-868
+  (testing "min/max: NaN is ignored"
+    (is (= 1.0 (max 0.0 1.0 Double/NaN)))
+    (is (= 1.0 (max 0.0 Double/NaN 1.0)))
+    (is (= 1.0 (max Double/NaN 0.0 1.0)))
+    (is (= 1.0 (max 1.0 0.0 Double/NaN)))
+    (is (= 1.0 (max 1.0 Double/NaN 0.0)))
+    (is (= 1.0 (max Double/NaN 1.0 0.0)))
+    (is (= -1.0 (min 0.0 -1.0 Float/NaN)))
+    (is (= -1.0 (min 0.0 Float/NaN -1.0)))
+    (is (= -1.0 (min Float/NaN 0.0 -1.0)))
+    (is (= -1.0 (min -1.0 0.0 Float/NaN)))
+    (is (= -1.0 (min -1.0 Float/NaN 0.0)))
+    (is (= -1.0 (min Float/NaN -1.0 0.0)))
+    (testing "unless all arguments are NaN, in which case NaN returns"
+      (is (Double/isNaN (min Double/NaN)))
+      (is (Double/isNaN (min Double/NaN Double/NaN)))
+      (is (Double/isNaN (min Double/NaN Double/NaN Double/NaN)))
+      (is (Double/isNaN (max Double/NaN)))
+      (is (Double/isNaN (max Double/NaN Double/NaN)))
+      (is (Double/isNaN (max Double/NaN Double/NaN Double/NaN))))))
