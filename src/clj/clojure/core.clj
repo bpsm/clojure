@@ -5739,6 +5739,18 @@
   Defaults to true"
   {:added "1.0"})
 
+(add-doc-and-meta
+ *instant-reader*
+ "Used by Clojure's reader to convert date literals of the form
+      #@yyyy-mm-ddThh:mm:ss.fff+hh:mm
+into a representation of an instant. Trailing components may be
+elided. Time zone offset is optional and is assumed to be 00:00
+if absent.
+
+  Default instant reader produces java.util.Date objects since these
+are the most widely supported for interop with existing JVM libraries."
+ {:added "1.4"})
+
 (defn future?
   "Returns true if x is a future"
   {:added "1.1"
@@ -5977,6 +5989,7 @@
 (load "core_deftype")
 (load "core/protocols")
 (load "gvec")
+(load "instant")
 
 ;; redefine reduce with internal-reduce
 (defn reduce

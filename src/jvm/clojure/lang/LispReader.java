@@ -109,6 +109,7 @@ static IFn ctorReader = new CtorReader();
 	dispatchMacros['!'] = new CommentReader();
 	dispatchMacros['<'] = new UnreadableReader();
 	dispatchMacros['_'] = new DiscardReader();
+    dispatchMacros['@'] = new InstantReader();
 	}
 
 static boolean isWhitespace(int ch){
@@ -703,6 +704,27 @@ static class ArgReader extends AFn{
 			throw new IllegalStateException("arg literal must be %, %& or %integer");
 		return registerArg(((Number) n).intValue());
 	}
+}
+
+static class InstantReader extends AFn {
+    public Object invoke(Object reader, Object pct) {
+        PushbackReader r = (PushbackReader) reader;
+        StringBuilder sb = new StringBuilder();
+        for(; ;)
+            {
+            int ch = read1(r);
+            if(ch == -1 || isWhitespace(ch) || isMacro(ch))
+                {
+                unread(r, ch);
+                break;
+                }
+            sb.append((char) ch);
+            }
+        String s = sb.toString();
+        if (!(s instanceof String))
+            throw new IllegalArgumentException(s + " is not an ISO8601 date string");
+        return RT.instantReader.fn().invoke(s);
+    }
 }
 
 public static class MetaReader extends AFn{

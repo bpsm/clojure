@@ -218,6 +218,8 @@ final static Var NS_VAR = Var.intern(CLOJURE_NS, Symbol.intern("ns"), F);
 final static Var FN_LOADER_VAR = Var.intern(CLOJURE_NS, Symbol.intern("*fn-loader*"), null).setDynamic();
 static final Var PRINT_INITIALIZED = Var.intern(CLOJURE_NS, Symbol.intern("print-initialized"));
 static final Var PR_ON = Var.intern(CLOJURE_NS, Symbol.intern("pr-on"));
+static final public Var instantReader = Var.intern(CLOJURE_NS, Symbol.intern("*instant-reader*"), null).setDynamic();
+
 //final static Var IMPORTS = Var.intern(CLOJURE_NS, Symbol.intern("*imports*"), DEFAULT_IMPORTS);
 final static IFn inNamespace = new AFn(){
 	public Object invoke(Object arg1) {
