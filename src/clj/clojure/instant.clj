@@ -88,8 +88,6 @@ Grammar (of s):
 
 Unlike RFC3339:
 
-  - we only consdier timestamp (was 'date-time')
-    (removed: 'full-time', 'full-date')
   - timestamp can elide trailing components
   - time-offset is optional
 
