@@ -34,10 +34,12 @@
 ;;; ------------------------------------------------------------------------
 ;;; parser implementation
 
-(defn- parse-int [^String s]
+(defn- parse-int
+  [^String s]
   (Long/parseLong s))
 
-(defn- zero-fill-right [^String s width]
+(defn- zero-fill-right
+  [^String s width]
   (cond (= width (count s)) s
         (< width (count s)) (.substring s 0 width)
         :else (loop [b (StringBuilder. s)]
