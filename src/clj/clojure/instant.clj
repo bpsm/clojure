@@ -89,11 +89,7 @@ Grammar (of s):
 Unlike RFC3339:
 
   - timestamp can elide trailing components
-  - time-offset is optional
-
-Though time-offset is syntactically optional, a missing time-offset
-will be treated as if the time-offset zero (+00:00) had been
-specified.
+  - time-offset is optional (if missing, +00:00 is assumed)
 "
      (let [timestamp #"(\d\d\d\d)(?:-(\d\d)(?:-(\d\d)(?:[T](\d\d)(?::(\d\d)(?::(\d\d)(?:[.](\d+))?)?)?)?)?)?(?:[Z]|([-+])(\d\d):(\d\d))?"]
 
